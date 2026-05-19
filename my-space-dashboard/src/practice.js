@@ -39,19 +39,43 @@
 
 
 
-const itsPosition = {
-  latitude: 40.7128,
-  longitude: -74.0060
-};
+// const itsPosition = {
+//   latitude: 40.7128,
+//   longitude: -74.0060
+// };
 
-console.log(itsPosition.latitude);
-console.log(itsPosition.longitude);
+// console.log(itsPosition.latitude);
+// console.log(itsPosition.longitude);
 
-console.log(itsPosition["latitude"]);
-console.log(itsPosition["longitude"]);
+// console.log(itsPosition["latitude"]);
+// console.log(itsPosition["longitude"]);
 
-const latKey = "latitude";
-const longKey = "longitude";
+// const latKey = "latitude";
+// const longKey = "longitude";
 
-console.log(itsPosition[latKey]);
-console.log(itsPosition[longKey]);
+// console.log(itsPosition[latKey]);
+// console.log(itsPosition[longKey]);
+
+const asteroids = [
+  { name: "Apophis", hazardous: true },
+  { name: "Bennu", hazardous: true },
+  { name: "Eros", hazardous: false },
+  { name: "Itokawa", hazardous: false }
+];
+
+const names = asteroids.map(asteroid => asteroid.name);
+console.log(names);
+
+const hazardousAsteroids = asteroids.filter(
+  asteroid => asteroid.hazardous
+);
+console.log(hazardousAsteroids);
+
+const firstTwo = asteroids.slice(0, 2);
+console.log(firstTwo);
+
+const hazardousNames = asteroids
+  .filter(asteroid => asteroid.hazardous)
+  .map(asteroid => asteroid.name);
+
+console.log(hazardousNames);
