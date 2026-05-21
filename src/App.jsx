@@ -29,3 +29,36 @@ function App() {
 }
 
 export default App;
+
+import {useState, useEffect } from 'react'
+
+function ISSTracker(){
+    useEffect(() => {
+      console.log("component loaded")
+    }, [])
+
+    return <div className="card">
+      <h2>ISS Position</h2>
+    </div>
+}
+
+function ISSTracker(){
+      const [location, setLocation] = useState(null)
+
+      useEffect(() => {
+        fetch('https://api.whertheiss.at/v1/satellites/25544')
+          .then(r => r.json())
+          .then(data => setLocation(data))
+      }, [])
+
+      return (
+        <div className="card">
+          <h2>ISS Position</h2>
+          {location ? (
+            <p>{location.latitude.toFixed(2)}, {location.longtitude.toFixed(2)}</p>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
+      )
+}
