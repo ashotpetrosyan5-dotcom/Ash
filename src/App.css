@@ -5,24 +5,38 @@
 body {
   margin: 0;
   font-family: monospace;
-  background:
-    radial-gradient(circle at top, #111827, #020617);
+  background: radial-gradient(circle at top, #0f172a 0%, #020617 40%, #000000 100%);
   color: white;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .app {
   max-width: 1400px;
   margin: auto;
   padding: 24px;
+  position: relative;
+}
+
+.app::before {
+  content: "";
+  position: fixed;
+  top: -200px;
+  left: -200px;
+  width: 500px;
+  height: 500px;
+  background: rgba(74, 222, 128, 0.08);
+  filter: blur(120px);
+  z-index: -1;
 }
 
 .title {
   text-align: center;
   color: #4ade80;
-  letter-spacing: 0.3em;
-  margin-bottom: 32px;
-  font-size: 2rem;
+  letter-spacing: 0.5em;
+  margin-bottom: 40px;
+  font-size: 2.4rem;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.7), 0 0 30px rgba(74, 222, 128, 0.3);
 }
 
 .grid {
@@ -32,36 +46,60 @@ body {
 }
 
 .card {
-  background: rgba(20, 20, 20, 0.85);
-  border: 1px solid #1f2937;
-  border-radius: 14px;
-  padding: 18px;
-  backdrop-filter: blur(8px);
-  transition: 0.25s ease;
-  box-shadow: 0 0 20px rgba(0,0,0,0.35);
+  position: relative;
+  width: 100%;
+  background: linear-gradient(145deg, rgba(10, 15, 30, 0.95), rgba(5, 10, 20, 0.85));
+  border: 1px solid rgba(74, 222, 128, 0.15);
+  border-radius: 24px;
+  padding: 28px;
+  backdrop-filter: blur(12px);
+  transition: all 0.35s ease;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.45), inset 0 0 30px rgba(255, 255, 255, 0.02);
+  animation: fadeIn 0.5s ease;
+}
+
+.full-width {
+  grid-column: 1 / -1;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-8px) scale(1.01);
   border-color: #4ade80;
+  box-shadow: 0 0 25px rgba(74, 222, 128, 0.25), 0 0 60px rgba(74, 222, 128, 0.08);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #4ade80, transparent);
+  transition: 0.6s;
+}
+
+.card:hover::before {
+  left: 100%;
 }
 
 .card h2 {
   color: #4ade80;
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
+  font-size: 0.9rem;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
 }
 
 .card h3 {
   margin-top: 0;
-  color: #fff;
 }
 
 .card p {
   margin: 8px 0;
-  font-size: 1rem;
   line-height: 1.5;
 }
 
@@ -75,8 +113,7 @@ body {
 
 .card img {
   width: 100%;
-  border-radius: 10px;
-  margin-top: 10px;
+  border-radius: 14px;
 }
 
 .label {
@@ -84,7 +121,6 @@ body {
   color: #94a3b8;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  margin-top: 10px;
 }
 
 a {
@@ -96,20 +132,185 @@ a:hover {
   text-decoration: underline;
 }
 
-.live {
+details {
+  margin-top: 12px;
+}
+
+summary {
+  cursor: pointer;
   color: #4ade80;
 }
 
-.warning {
-  color: #ef4444;
+/* --- ԱՍՏՂԱԿԵՐՊԵՐԻ (ASTEROIDS) ԲԱԺՆԻ ՈՃԵՐԸ --- */
+.asteroid-list {
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.asteroid-item {
+  border-bottom: 1px solid rgba(74, 222, 128, 0.1);
+  padding: 12px 0;
+}
+
+.asteroid-item:last-child {
+  border-bottom: none;
+}
+
+/* Ստեղծում է հորիզոնական ճկուն տող */
+.asteroid-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.ast-name {
+  color: #4ade80;
+  font-weight: bold;
+  font-size: 0.95rem;
+  min-width: 110px;
+}
+
+.ast-data {
+  color: #e2e8f0;
+  font-size: 0.85rem;
+}
+
+/* Կոմպակտ «Click» կոճակ */
+.view-btn {
+  background: transparent;
+  border: 1px solid #4ade80;
+  color: #4ade80;
+  padding: 4px 12px;
+  font-family: monospace;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.view-btn:hover {
+  background: rgba(74, 222, 128, 0.15);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
+}
+
+.asteroid-img-container {
+  margin-top: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  animation: fadeIn 0.3s ease;
+  width: 100%;
+}
+
+.asteroid-orbit-img {
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ------------------------------------------- */
+
+.mars-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.mars-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 14px;
+  transition: transform 0.3s ease;
+}
+
+.mars-img:hover {
+  transform: scale(1.05);
+}
+
+.loading {
+  font-size: 1.5rem;
+  text-align: center;
+  animation: pulse 1.5s infinite;
+  color: #a7f3d0;
+  padding: 20px 0;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.solar-iframe-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
 }
 
 @media (max-width: 768px) {
   .title {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+    letter-spacing: 0.3em;
   }
 
   .card {
-    padding: 14px;
+    padding: 18px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .mars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .asteroid-row {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  
+  .ast-name {
+    width: 100%;
   }
 }
